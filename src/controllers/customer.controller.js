@@ -1,9 +1,9 @@
-const {CustomerModel} = require("../models/customer.model");
+const {customerModel} = require("../models/customer.model");
 
 // get all customers
 async function getAllCustomers(req, res) {
     // const customer = customers.find(r => r.id === req.params.customerId);
-    const customers = await CustomerModel.find();
+    const customers = await customerModel.find();
 
     res.json(customers).end();
 }
@@ -14,7 +14,7 @@ async function getSingleCustomer(req, res) {
     //     ...req.body,
     //     id: (customers.length + 1).toString()
     // });
-    const customer = await CustomerModel.findById(req.params.customerId);
+    const customer = await customerModel.findById(req.params.customerId);
 
     res.json(customer).end();
 }
@@ -26,7 +26,7 @@ async function addCustomer(req, res) {
     //     id: (customers.length + 1).toString()
     // });
 
-    await CustomerModel.create({
+    await customerModel.create({
         name: req.body.name,
         itemBought: req.body.itemBought,
         phone: req.body.phone,
@@ -46,7 +46,7 @@ async function udpateCustomer(req, res) {
     //     return r;
     // })
 
-    await CustomerModel.updateOne({_id: req.params.customerId}, {...req.body});
+    await customerModel.updateOne({_id: req.params.customerId}, {...req.body});
 
     res.send("customer updated successfully!").end();
 }
@@ -54,7 +54,7 @@ async function udpateCustomer(req, res) {
 // delete customer
 async function deleteCustomer(req, res) {
     // customers = customers.filter(r => r.id !== req.params.customerId);
-    await CustomerModel.deleteOne({_id: req.params.customerId});
+    await customerModel.deleteOne({_id: req.params.customerId});
 
     res.send("customer deleted").end();
 }

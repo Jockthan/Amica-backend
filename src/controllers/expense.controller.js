@@ -1,9 +1,9 @@
-const {ExpenseModel} = require("../models/expense.model");
+const {expenseModel} = require("../models/expense.model");
 
 // get all expenses
 async function getAllExpenses(req, res) {
     // const expense = expenses.find(r => r.id === req.params.expenseId);
-    const expenses = await ExpenseModel.find();
+    const expenses = await expenseModel.find();
 
     res.json(expenses).end();
 }
@@ -14,7 +14,7 @@ async function getSingleExpense(req, res) {
     //     ...req.body,
     //     id: (expenses.length + 1).toString()
     // });
-    const expense = await ExpenseModel.findById(req.params.expenseId);
+    const expense = await expenseModel.findById(req.params.expenseId);
 
     res.json(expense).end();
 }
@@ -26,7 +26,7 @@ async function addExpense(req, res) {
     //     id: (expenses.length + 1).toString()
     // });
 
-    await ExpenseModel.create({
+    await expenseModel.create({
         date: req.body.date,
         description: req.body.description,
         amount: req.body.amount
@@ -45,7 +45,7 @@ async function udpateExpense(req, res) {
     //     return r;
     // })
 
-    await ExpenseModel.updateOne({_id: req.params.expenseId}, {...req.body});
+    await expenseModel.updateOne({_id: req.params.expenseId}, {...req.body});
 
     res.send("expense updated successfully!").end();
 }
@@ -53,7 +53,7 @@ async function udpateExpense(req, res) {
 // delete expense
 async function deleteExpense(req, res) {
     // expenses = expenses.filter(r => r.id !== req.params.expenseId);
-    await ExpenseModel.deleteOne({_id: req.params.expenseId});
+    await expenseModel.deleteOne({_id: req.params.expenseId});
 
     res.send("expense deleted").end();
 }
