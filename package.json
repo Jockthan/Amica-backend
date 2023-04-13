@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.4",
+    "mongoose": "^7.0.3",
+    "nodemon": "^2.0.22"
+  },
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "name": "amica-backend",
+  "version": "1.0.0",
+  "main": "nodemon src/app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://%7B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%7D@github.com/Jockthan/Amica-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jockthan/Amica-backend/issues"
+  },
+  "homepage": "https://github.com/Jockthan/Amica-backend#readme",
+  "description": ""
+}
