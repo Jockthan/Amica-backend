@@ -35,6 +35,22 @@ async function addUser(req, res) {
     res.send("user added").end();
 }
 
+//login user
+async function loginUser(req, res) {
+    try {
+        const check = await UserModel.findOne({name:req.body.name})
+
+        if(check.password===req.body.password){
+            res.send("successfully login to dashboard")
+        }
+        else{
+            res.send("wrong password")
+        }
+    } catch{
+        res.send("wrong details")
+    }
+}
+
 // update recipe
 async function udpateUser(req, res) {
     // user = user.map(r => {
@@ -62,6 +78,7 @@ module.exports = {
     getAllUsers,
     getSingleUser,
     addUser,
+    loginUser,
     udpateUser,
     deleteUser
 }
