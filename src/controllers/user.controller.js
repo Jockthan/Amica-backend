@@ -36,20 +36,25 @@ async function addUser(req, res) {
 }
 
 //login user
-async function loginUser(req, res) {
-    try {
-        const check = await UserModel.findOne({name:req.body.name})
-
-        if(check.password===req.body.password){
-            res.send("successfully login to dashboard")
-        }
-        else{
-            res.send("wrong password")
-        }
-    } catch{
-        res.send("wrong details")
-    }
-}
+function loginUser(req, res, next) {
+	//console.log(req.body);
+	User.findOne({email:req.body.email},function(err,data){
+		if(data){
+			
+			if(data.password==req.body.password){
+				//console.log("Done Login");
+				// req.session.userId = data.unique_id;
+				console.log(req.session.userId);
+				res.send({"Success":"Success!"});
+				
+			}else{
+				res.send({"Success":"Wrong password!"});
+			}
+		}else{
+			res.send({"Success":"This Email Is not regestered!"});
+		}
+	});
+};
 
 // update recipe
 async function udpateUser(req, res) {
@@ -74,11 +79,55 @@ async function deleteUser(req, res) {
     res.send("user account has been deleted").end();
 }
 
+//forget password
+function forgetPassword(req, res, next) {
+   	//console.log('req.body');
+	//console.log(req.body);
+	User.findOne({email:req.body.email},function(err,data){
+		console.log(data);
+		if(!data){
+			res.send({"Success":"This Email Is not regestered!"});
+		}else{
+			// res.send({"Success":"Success!"});
+			if (req.body.password==req.body.passwordConf) {
+			data.password=req.body.password;
+			data.passwordConf=req.body.password;
+
+			data.save(function(err, User){
+				if(err)
+					console.log(err);
+				else
+					console.log('Success');
+					res.send({"Success":"Password changed!"});
+			});
+		}else{
+			res.send({"Success":"Password does not matched! Both Password should be same."});
+		}
+		}
+	});
+};
+
+function logoutUser(req, res, next) {
+    console.log("logout")
+	if (req.session) {
+    // delete session object
+    req.session.destroy(function (err) {
+    	if (err) {
+    		return next(err);
+    	} else {
+    		return res.redirect('/');
+    	}
+    });
+}
+};
+
 module.exports = {
     getAllUsers,
     getSingleUser,
     addUser,
     loginUser,
     udpateUser,
-    deleteUser
+    deleteUser,
+    forgetPassword,
+    logoutUser
 }

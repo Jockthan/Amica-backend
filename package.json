@@ -9,11 +9,11 @@
     "nodemon": "^2.0.22"
   },
   "scripts": {
-    "start": "nodemon src/app.js"
+    "start": "node src/app.js"
   },
   "name": "amica-backend",
   "version": "1.0.0",
-  "main": "nodemon src/app.js",
+  "main": "node src/app.js",
   "repository": {
     "type": "git",
     "url": "git+https://%7B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%7D@github.com/Jockthan/Amica-backend.git"
