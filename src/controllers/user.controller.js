@@ -36,24 +36,36 @@ async function addUser(req, res) {
 }
 
 //login user
-function loginUser(req, res, next) {
-	//console.log(req.body);
-	User.findOne({email:req.body.email},function(err,data){
-		if(data){
+async function loginUser(req, res) {
+	try {
+        const check = await UserModel.findOne(req.params.userId)
+
+        if(check.password===req.body.password){
+            res.send("Welcome to our dashboard")
+        }
+        else{
+            res.send("wrong password")
+        }
+    } catch{
+        res.send("wrong details")
+    }
+	// //console.log(req.body);
+	// UserModel.findOne({email:req.body.email},function(err,data){
+	// 	if(data){
 			
-			if(data.password==req.body.password){
-				//console.log("Done Login");
-				// req.session.userId = data.unique_id;
-				console.log(req.session.userId);
-				res.send({"Success":"Success!"});
+	// 		if(data.password==req.body.password){
+	// 			//console.log("Done Login");
+	// 			// req.session.userId = data.unique_id;
+	// 			console.log(req.session.userId);
+	// 			res.send({"Success":"Success!"});
 				
-			}else{
-				res.send({"Success":"Wrong password!"});
-			}
-		}else{
-			res.send({"Success":"This Email Is not regestered!"});
-		}
-	});
+	// 		}else{
+	// 			res.send({"Success":"Wrong password!"});
+	// 		}
+	// 	}else{
+	// 		res.send({"Success":"This Email Is not regestered!"});
+	// 	}
+	// });
 };
 
 // update recipe
@@ -83,17 +95,17 @@ async function deleteUser(req, res) {
 function forgetPassword(req, res, next) {
    	//console.log('req.body');
 	//console.log(req.body);
-	User.findOne({email:req.body.email},function(err,data){
-		console.log(data);
-		if(!data){
+	UserModel.findOne({email:req.body.email},function(err){
+		console.log("You can change your password");
+		if(!email){
 			res.send({"Success":"This Email Is not regestered!"});
 		}else{
 			// res.send({"Success":"Success!"});
-			if (req.body.password==req.body.passwordConf) {
-			data.password=req.body.password;
-			data.passwordConf=req.body.password;
+			if (req.body.password===req.body.passwordConf) {
+			password=req.body.password;
+			passwordConf=req.body.password;
 
-			data.save(function(err, User){
+			save(function(err, UserModel){
 				if(err)
 					console.log(err);
 				else
@@ -101,24 +113,24 @@ function forgetPassword(req, res, next) {
 					res.send({"Success":"Password changed!"});
 			});
 		}else{
-			res.send({"Success":"Password does not matched! Both Password should be same."});
+			res.send({"Success":"Password does not match! Both Password should be same."});
 		}
 		}
 	});
 };
 
-function logoutUser(req, res, next) {
-    console.log("logout")
-	if (req.session) {
-    // delete session object
-    req.session.destroy(function (err) {
-    	if (err) {
-    		return next(err);
-    	} else {
-    		return res.redirect('/');
-    	}
-    });
-}
+function logoutUser() {
+    console.log("You are now logged out")
+// 	if (req.session) {
+//     // delete session object
+//     req.session.destroy(function (err) {
+//     	if (err) {
+//     		return next(err);
+//     	} else {
+//     		return res.redirect('/');
+//     	}
+//     });
+// }
 };
 
 module.exports = {
