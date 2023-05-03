@@ -1,11 +1,7 @@
 const {Schema, model} = require("mongoose");
 
-const stockSchema = Schema({
+const salesSchema = Schema({
     name:{
-        type: String,
-        required: true
-    },
-    type:{
         type: String,
         required: true
     },
@@ -17,14 +13,15 @@ const stockSchema = Schema({
         type: Number,
         required: true
     },
-    sales:{
+    stock:{
         type: Schema.Types.ObjectId,
-        ref: "Sales"
+        ref: "Stock"
      }
+
 })
 
-const stockModel = model("Stock", stockSchema);
+const salesModel = model("Sales", salesSchema);
 
 module.exports = {
-    stockModel
+    salesModel
 }

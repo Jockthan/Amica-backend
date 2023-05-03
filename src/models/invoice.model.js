@@ -11,7 +11,11 @@ const invoiceSchema = Schema({
     },
     location: {
         type: String,
-    }
+    },
+    sales: [{
+        type: Schema.Types.Map,
+        ref: "Sales"
+    }]
 })
 
 const invoiceModel = model("Invoice", invoiceSchema);

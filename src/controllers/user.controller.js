@@ -1,4 +1,7 @@
 const {UserModel} = require("../models/user.model");
+const validator = require("../validators/user.validators");
+const bcrypt = require ("bcrypt");
+const {formatZodError} = require("../utilities/errormessage")
 
 // get all user
 async function getAllUsers(req, res) {
@@ -25,11 +28,12 @@ async function addUser(req, res) {
     //     ...req.body,
     //     id: (user.length + 1).toString()
     // });
-
+    const salt = bcrypt.genSaltSync(10);
+    const encryptedPassword = bcrypt.hashSync(req.body.password, salt);
     await UserModel.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: encryptedPassword
     });
 
     res.send("user added").end();
@@ -37,18 +41,43 @@ async function addUser(req, res) {
 
 //login user
 async function loginUser(req, res) {
-	try {
-        const check = await UserModel.findOne(req.params.userId)
 
-        if(check.password===req.body.password){
-            res.send("Welcome to our dashboard")
-        }
-        else{
-            res.send("wrong password")
-        }
-    } catch{
-        res.send("wrong details")
+    const result = validator.loginValidator.safeParse(req.body);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
     }
+    
+    const user = await UserModel.findOne({email: req.body.email});
+
+    if (!user) return res.send("email not found!!").end();
+ 
+    if (!bcrypt.compareSync(req.body.password, user.password)) return res.send("password incorrect!!").end();
+ 
+    user.password = undefined;
+
+    console.log(user)
+ 
+    res.json(user).end();
+
+    //The one below works very well
+
+    // try {
+    //     const check = await UserModel.findOne(req.params.userId)
+
+    //     if(check.password===req.body.password){
+    //         res.send("Welcome to our dashboard")
+    //     }
+    //     else{
+    //         res.send("wrong password")
+    //     }
+    // } catch{
+    //     res.send("wrong details")
+    // }
+
+    //The one above works very well
+
+
 	// //console.log(req.body);
 	// UserModel.findOne({email:req.body.email},function(err,data){
 	// 	if(data){

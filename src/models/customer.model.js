@@ -14,6 +14,9 @@ const customerSchema = Schema({
     },
     debt:{
         type: Number,
+    },
+    date:{
+        type: Date,
     }
 });
 

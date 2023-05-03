@@ -29,7 +29,7 @@ async function addStock(req, res) {
     await stockModel.create({
         name: req.body.name,
         type: req.body.type,
-        amount: req.body.amount,
+        quantity: req.body.quantity,
         price: req.body.price
     });
 
