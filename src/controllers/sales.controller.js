@@ -1,5 +1,6 @@
 const {salesModel} = require("../models/sales.model");
-
+const {stockModel} = require("../models/stock.model");
+ 
 // get all sales
 async function getAllSales(req, res) {
     // const sale = sales.find(r => r.id === req.params.saleId);
@@ -36,13 +37,19 @@ async function addSale(req, res) {
     // stock.quantity - quantity
 
     // stock.save()
-   
-    await salesModel.create({
-        name: req.body.name,
-        type: req.body.type,
-        quantity: req.body.quantity,
-        price: req.body.price
-    });
+
+    try {
+        await salesModel.create({
+            name: req.body.name,
+            type: req.body.type,
+            quantity: req.body.quantity,
+            price: req.body.price
+        });
+    } catch(e) {
+        return  res.status(400).json({error: 'An errror occured'})
+    }
+
+    await stockModel.update({_id: stockId}, {quantity: stock.quantity - quantity});
 
     res.send("sale added").end();
 }

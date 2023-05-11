@@ -4,18 +4,18 @@ const controller = require("../controllers/sales.controller");
 const router = Router();
 
 // get all sale
-router.get('/', controller.getAllSale);
+router.get('/', controller.getAllSales);
 
 // get single sale
-router.get('/:saleId', controller.getAllSale);
+router.get('/:saleId', controller.getSingleSale);
 
 // add new sale
-router.post('/', controller.addSale);
+router.post('/:stockId', controller.addSale);
 
 // update sale
-router.patch('/:saleId', controller.udpateSale);
+router.patch('/:stockId', controller.udpateSale);
 
 // delete sale
 router.delete('/:saleId', controller.deleteSale);
 
-module.exports.stockRouter = router;
+module.exports.salesRouter = router;
