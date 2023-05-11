@@ -21,7 +21,7 @@ app.use('/invoices', invoiceRouter);
 app.use('/stocks', stockRouter);
 app.use('/users', userRouter);
 
-mongoose.connect(MONGO_URL).then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
   app.listen(3000, () => {
     console.log("express server running...");
   })
