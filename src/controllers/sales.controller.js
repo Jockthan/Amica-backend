@@ -26,15 +26,16 @@ async function addSale(req, res) {
     //     id: (sales.length + 1).toString()
     // });
     const stock = await stockModel.findById(stockId);
+    console.log (stock);
  
     // Check if the requested quantity is available
     if (quantity > stock.quantity) {
       return res.status(400).json({ error: 'Requested quantity not available' });
     }
 
-    stock.quantity - quantity
+    // stock.quantity - quantity
 
-    stock.save()
+    // stock.save()
    
     await salesModel.create({
         name: req.body.name,

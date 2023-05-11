@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', controller.getAllSale);
 
 // get single sale
-router.get('/:stockId', controller.getAllSale);
+router.get('/:saleId', controller.getAllSale);
 
 // add new sale
 router.post('/', controller.addSale);
