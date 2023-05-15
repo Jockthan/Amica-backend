@@ -2,6 +2,7 @@ const {z} = require ("zod");
 
 const loginValidator = z.object({
     email: z.string(),
+    // phone: z.number().min(10),
     password: z.string().min(8)
 });
 

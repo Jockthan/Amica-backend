@@ -33,6 +33,7 @@ async function addUser(req, res) {
     await UserModel.create({
         name: req.body.name,
         email: req.body.email,
+        phone: req.body.phone,
         password: encryptedPassword
     });
 

@@ -1,7 +1,7 @@
 const {AdminModel} = require("../models/admin.model");
 
 async function checkAdmin(req, res, next) {
-    const admin = await AdminModel.findOne({username: req.body.username});
+    const admin = await AdminModel.findOne({email: req.body.email});
 
     if (!admin) return res.send("Permission denied!").end();
 
