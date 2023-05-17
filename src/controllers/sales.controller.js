@@ -21,21 +21,27 @@ async function getSingleSale(req, res) {
 }
 
 // add new sale
+
 async function addSale(req, res) {
+    mkt = req.body.quantity
+    console.log(typeof mkt);
+
     // sales.push({
     //     ...req.body,
     //     id: (sales.length + 1).toString()
     // });
-    const stock = await stockModel.findById(stockId);
-    console.log (stock);
+    
+    // console.log(typeof req.body.quantity);
+    
+    const stock = await stockModel.findById(req.params.stockId);
+    // res.json(stock).end();
  
     // Check if the requested quantity is available
-    if (quantity > stock.quantity) {
+    if (mkt > stock.quantity) {
       return res.status(400).json({ error: 'Requested quantity not available' });
     }
 
-    // stock.quantity - quantity
-
+    // stock.quantity -= quantity
     // stock.save()
 
     try {
@@ -49,11 +55,10 @@ async function addSale(req, res) {
         return  res.status(400).json({error: 'An errror occured'})
     }
 
-    await stockModel.update({_id: stockId}, {quantity: stock.quantity - quantity});
+    await stockModel.updateOne({_id: req.params.stockId}, {quantity: stock.quantity -= mkt});
 
     res.send("sale added").end();
 }
-
 // update sale
 async function udpateSale(req, res) {
     // sales = sales.map(r => {
