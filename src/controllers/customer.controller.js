@@ -33,7 +33,7 @@ async function addCustomer(req, res) {
         debt: req.body.debt
     });
 
-    res.send("customer added").end();
+    res.json("customer added").end();
 }
 
 // update customer
@@ -48,7 +48,7 @@ async function udpateCustomer(req, res) {
 
     await customerModel.updateOne({_id: req.params.customerId}, {...req.body});
 
-    res.send("customer updated successfully!").end();
+    res.json("customer updated successfully!").end();
 }
 
 // delete customer
@@ -56,7 +56,7 @@ async function deleteCustomer(req, res) {
     // customers = customers.filter(r => r.id !== req.params.customerId);
     await customerModel.deleteOne({_id: req.params.customerId});
 
-    res.send("customer deleted").end();
+    res.json("customer deleted").end();
 }
 
 module.exports = {

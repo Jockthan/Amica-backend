@@ -57,7 +57,8 @@ async function addSale(req, res) {
 
     await stockModel.updateOne({_id: req.params.stockId}, {quantity: stock.quantity -= mkt});
 
-    res.send("sale added").end();
+    res.status(201).json({message: "Sale added"});
+    // res.send("sale added").end();
 }
 // update sale
 async function udpateSale(req, res) {
@@ -72,7 +73,7 @@ async function udpateSale(req, res) {
     await salesModel.updateOne({_id: req.params.saleId}, {...req.body});
     // await stockModel.findByIdAndUpdate(stockId, { quantity: stockId.quantity - quantity });
 
-    res.send("sale updated successfully!").end();
+    res.json("sale updated successfully!").end();
 }
 
 // delete sale
@@ -80,7 +81,7 @@ async function deleteSale(req, res) {
     // sales = sales.filter(r => r.id !== req.params.saleId);
     await salesModel.deleteOne({_id: req.params.saleId});
 
-    res.send("sale deleted").end();
+    res.json("sale deleted").end();
 }
 
 module.exports = {

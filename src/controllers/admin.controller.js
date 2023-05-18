@@ -17,7 +17,7 @@ async function register(req, res) {
         password: req.body.password,
     });
 
-    res.send("Admin created!!").end();
+    res.json("Admin created!!").end();
 }
 
 module.exports = {

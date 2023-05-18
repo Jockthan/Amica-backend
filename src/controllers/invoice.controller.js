@@ -32,7 +32,7 @@ async function addInvoice(req, res) {
         location: req.body.location
     });
 
-    res.send("invoice added").end();
+    res.json("invoice added").end();
 }
 
 // update invoice

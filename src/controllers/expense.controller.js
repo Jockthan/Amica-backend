@@ -32,7 +32,7 @@ async function addExpense(req, res) {
         amount: req.body.amount
     });
 
-    res.send("expense added").end();
+    res.json("expense added").end();
 }
 
 // update expense
@@ -47,7 +47,7 @@ async function udpateExpense(req, res) {
 
     await expenseModel.updateOne({_id: req.params.expenseId}, {...req.body});
 
-    res.send("expense updated successfully!").end();
+    res.json("expense updated successfully!").end();
 }
 
 // delete expense
@@ -55,7 +55,7 @@ async function deleteExpense(req, res) {
     // expenses = expenses.filter(r => r.id !== req.params.expenseId);
     await expenseModel.deleteOne({_id: req.params.expenseId});
 
-    res.send("expense deleted").end();
+    res.json("expense deleted").end();
 }
 
 module.exports = {

@@ -59,7 +59,7 @@ async function loginUser(req, res) {
  
     user.password = undefined;
 
-    console.log(user)
+    // console.log(user)
  
     res.json(user).end();
 
@@ -112,7 +112,7 @@ async function udpateUser(req, res) {
 
     await UserModel.updateOne({_id: req.params.userId}, {...req.body});
 
-    res.send("user details updated successfully!").end();
+    res.json("user details updated successfully!").end();
 }
 
 // delete user
@@ -120,7 +120,7 @@ async function deleteUser(req, res) {
     // user = user.filter(r => r.id !== req.params.userId);
     await UserModel.deleteOne({_id: req.params.userId});
 
-    res.send("user account has been deleted").end();
+    res.json("user account has been deleted").end();
 }
 
 //forget password
@@ -145,7 +145,7 @@ function forgetPassword(req, res, next) {
 					res.send({"Success":"Password changed!"});
 			});
 		}else{
-			res.send({"Success":"Password does not match! Both Password should be same."});
+			res.json({"Success":"Password does not match! Both Password should be same."});
 		}
 		}
 	});

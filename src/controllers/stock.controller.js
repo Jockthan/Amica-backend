@@ -33,7 +33,8 @@ async function addStock(req, res) {
         price: req.body.price
     });
 
-    res.send("stock added").end();
+    res.status(201).json({message: "Stock added"});
+    // res.send("stock added").end();
 }
 
 // update stock
@@ -48,7 +49,8 @@ async function udpateStock(req, res) {
 
     await stockModel.updateOne({_id: req.params.stockId}, {...req.body});
 
-    res.send("stock updated successfully!").end();
+    res.status(201).json({message: "Update successfully"});
+    // res.send("stock updated successfully!").end();
 }
 
 // delete stock
@@ -56,7 +58,7 @@ async function deleteStock(req, res) {
     // stocks = stocks.filter(r => r.id !== req.params.stockId);
     await stockModel.deleteOne({_id: req.params.stockId});
 
-    res.send("stock deleted").end();
+    res.json("stock deleted").end();
 }
 
 module.exports = {
