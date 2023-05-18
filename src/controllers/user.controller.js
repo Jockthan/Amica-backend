@@ -37,7 +37,9 @@ async function addUser(req, res) {
         password: encryptedPassword
     });
 
-    res.send("user added").end();
+    res.status(201).json({message: "User created"});
+    // res.send("user added").end();
+
 }
 
 //login user
