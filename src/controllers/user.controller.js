@@ -1,7 +1,7 @@
 const {UserModel} = require("../models/user.model");
 const validator = require("../validators/user.validators");
 const bcrypt = require ("bcrypt");
-const {formatZodError} = require("../utilities/errormessage")
+const {formatZodError} = require("../utilities/errormessage");
 
 // get all user
 async function getAllUsers(req, res) {
@@ -17,6 +17,12 @@ async function getSingleUser(req, res) {
     //     ...req.body,
     //     id: (user.length + 1).toString()
     // });
+    const result = validator.getUserValidator.safeParse(req.params.userId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     const user = await UserModel.findById(req.params.userId);
 
     res.json(user).end();
@@ -28,6 +34,12 @@ async function addUser(req, res) {
     //     ...req.body,
     //     id: (user.length + 1).toString()
     // });
+    const result = validator.registerValidator.safeParse(req.body);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const encryptedPassword = bcrypt.hashSync(req.body.password, salt);
     await UserModel.create({
@@ -109,6 +121,11 @@ async function udpateUser(req, res) {
 
     //     return r;
     // })
+    const result = validator.updateUserValidator.safeParse(req.params.userId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     await UserModel.updateOne({_id: req.params.userId}, {...req.body});
 
@@ -118,6 +135,13 @@ async function udpateUser(req, res) {
 // delete user
 async function deleteUser(req, res) {
     // user = user.filter(r => r.id !== req.params.userId);
+
+    const result = validator.deleteUserValidator.safeParse(req.params.userId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     await UserModel.deleteOne({_id: req.params.userId});
 
     res.json("user account has been deleted").end();

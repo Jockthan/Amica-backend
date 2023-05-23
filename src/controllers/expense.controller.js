@@ -1,4 +1,6 @@
 const {expenseModel} = require("../models/expense.model");
+const validator = require("../validators/expense.validator");
+const {formatZodError} = require("../utilities/errormessage");
 
 // get all expenses
 async function getAllExpenses(req, res) {
@@ -14,6 +16,13 @@ async function getSingleExpense(req, res) {
     //     ...req.body,
     //     id: (expenses.length + 1).toString()
     // });
+    
+    const result = validator.getExpenseValidator.safeParse(req.params.expenseId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     const expense = await expenseModel.findById(req.params.expenseId);
 
     res.json(expense).end();
@@ -25,11 +34,17 @@ async function addExpense(req, res) {
     //     ...req.body,
     //     id: (expenses.length + 1).toString()
     // });
+    const result = validator.addExpenseValidator.safeParse(req.body);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     await expenseModel.create({
         date: req.body.date,
         description: req.body.description,
-        amount: req.body.amount
+        quantity: req.body.price,
+        price: req.body.price
     });
 
     res.json("expense added").end();
@@ -44,6 +59,11 @@ async function udpateExpense(req, res) {
 
     //     return r;
     // })
+    const result = validator.updateExpenseValidator.safeParse(req.params.expenseId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     await expenseModel.updateOne({_id: req.params.expenseId}, {...req.body});
 
@@ -53,6 +73,12 @@ async function udpateExpense(req, res) {
 // delete expense
 async function deleteExpense(req, res) {
     // expenses = expenses.filter(r => r.id !== req.params.expenseId);
+    const result = validator.deleteExpenseValidator.safeParse(req.params.expenseId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     await expenseModel.deleteOne({_id: req.params.expenseId});
 
     res.json("expense deleted").end();

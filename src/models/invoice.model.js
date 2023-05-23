@@ -1,21 +1,26 @@
 const {Schema, model} = require("mongoose");
 
 const invoiceSchema = Schema({
-    name: {
+    customer_name: {
         type: String,
         required: true,
     },
-    amount: {
+    items: {
+        type: String,
+        required: true,
+    },
+    price: {
         type: Number,
         required: true,
     },
-    location: {
-        type: String,
-    },
-    sales: [{
-        type: Schema.Types.Map,
-        ref: "Sales"
-    }]
+    time : { type : Date, default: Date.now }
+    // location: {
+    //     type: String,
+    // },
+    // sales: [{
+    //     type: Schema.Types.Map,
+    //     ref: "Sales"
+    // }]
 })
 
 const invoiceModel = model("Invoice", invoiceSchema);

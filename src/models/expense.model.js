@@ -9,10 +9,15 @@ const expenseSchema = Schema({
         type: String,
         required: true
     },
-    amount:{
+    quantity:{
+        type: Number,
+        required: true
+    },
+    price:{
         type: Number,
         required: true
     }
+    // time : { type : Date, default: Date.now }
 });
 
 const expenseModel = model("Expense", expenseSchema);

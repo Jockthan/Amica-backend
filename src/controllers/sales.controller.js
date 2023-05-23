@@ -1,5 +1,8 @@
 const {salesModel} = require("../models/sales.model");
 const {stockModel} = require("../models/stock.model");
+const validator = require("../validators/sales.validator")
+const {formatZodError} = require("../utilities/errormessage");
+
  
 // get all sales
 async function getAllSales(req, res) {
@@ -15,6 +18,12 @@ async function getSingleSale(req, res) {
     //     ...req.body,
     //     id: (sales.length + 1).toString()
     // });
+    const result = validator.getSaleValidator.safeParse(req.params.saleId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     const sale = await salesModel.findById(req.params.saleId);
 
     res.json(sale).end();
@@ -43,6 +52,11 @@ async function addSale(req, res) {
 
     // stock.quantity -= quantity
     // stock.save()
+    const result = validator.addSaleValidator.safeParse(req.body);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     try {
         await salesModel.create({
@@ -69,6 +83,11 @@ async function udpateSale(req, res) {
 
     //     return r;
     // })
+    const result = validator.updateSaleValidator.safeParse(req.params.saleId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     await salesModel.updateOne({_id: req.params.saleId}, {...req.body});
     // await stockModel.findByIdAndUpdate(stockId, { quantity: stockId.quantity - quantity });
@@ -79,6 +98,12 @@ async function udpateSale(req, res) {
 // delete sale
 async function deleteSale(req, res) {
     // sales = sales.filter(r => r.id !== req.params.saleId);
+    const result = validator.deleteSaleValidator.safeParse(req.params.saleId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+
     await salesModel.deleteOne({_id: req.params.saleId});
 
     res.json("sale deleted").end();

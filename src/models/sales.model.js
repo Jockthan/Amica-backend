@@ -16,7 +16,8 @@ const salesSchema = Schema({
     stock:{
         type: Schema.Types.ObjectId,
         ref: "Stock"
-     }
+     },
+     time : { type : Date, default: Date.now }
 
 })
 

@@ -1,4 +1,6 @@
 const {stockModel} = require("../models/stock.model");
+const validator = require("../validators/stock.validator");
+const {formatZodError} = require("../utilities/errormessage");
 
 // get all stocks
 async function getAllStock(req, res) {
@@ -14,6 +16,11 @@ async function getSingleStock(req, res) {
     //     ...req.body,
     //     id: (stocks.length + 1).toString()
     // });
+    const result = validator.getStockValidator.safeParse(req.params.stockId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
     const stock = await stockModel.findById(req.params.stockId);
 
     res.json(stock).end();
@@ -25,6 +32,11 @@ async function addStock(req, res) {
     //     ...req.body,
     //     id: (stocks.length + 1).toString()
     // });
+    const result = validator.addStockValidator.safeParse(req.body);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     await stockModel.create({
         name: req.body.name,
@@ -46,6 +58,11 @@ async function udpateStock(req, res) {
 
     //     return r;
     // })
+    const result = validator.updateStockValidator.safeParse(req.params.stockId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
 
     await stockModel.updateOne({_id: req.params.stockId}, {...req.body});
 
@@ -56,6 +73,12 @@ async function udpateStock(req, res) {
 // delete stock
 async function deleteStock(req, res) {
     // stocks = stocks.filter(r => r.id !== req.params.stockId);
+    const result = validator.deleteStockValidator.safeParse(req.params.stockId);
+
+    if (!result.success){
+        return res.status(400).json(formatZodError(result.error.issues)).end();
+    }
+    
     await stockModel.deleteOne({_id: req.params.stockId});
 
     res.json("stock deleted").end();

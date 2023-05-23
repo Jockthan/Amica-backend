@@ -7,7 +7,6 @@ const customerSchema = Schema({
     },
     itemBought:{
         type: String,
-        required: true,
     },
     phone:{
         type: Number,
