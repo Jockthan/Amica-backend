@@ -6,6 +6,9 @@ const router = Router();
 // get all expense
 router.get('/', controller.getAllExpenses);
 
+// get all expense sum
+router.get('/sum', controller.getAllExpensesSum);
+
 // get single expense
 router.get('/:expenseId', controller.getSingleExpense);
 

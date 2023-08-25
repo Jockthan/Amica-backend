@@ -2,6 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const {customerRouter} = require("./routes/customer.routes");
+const {profitandlossRouter} = require("./routes/profitandloss.routes");
 const {expenseRouter} = require("./routes/expense.routes");
 const {invoiceRouter} = require("./routes/invoice.routes");
 const {stockRouter} = require("./routes/stock.routes");
@@ -19,6 +20,7 @@ app.use(express.json()); // Helps our app to accept json data
 app.use('/customers', customerRouter);
 app.use('/expenses', expenseRouter);
 app.use('/invoices', invoiceRouter);
+app.use('/pf', profitandlossRouter);
 app.use('/stocks', stockRouter);
 app.use('/sales', salesRouter);
 app.use('/users', userRouter);

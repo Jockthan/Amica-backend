@@ -6,6 +6,8 @@ const router = Router();
 // get all sale
 router.get('/', controller.getAllSales);
 
+router.get("/sum", controller.getAllSalesSum)
+
 // get single sale
 router.get('/:saleId', controller.getSingleSale);
 

@@ -109,10 +109,25 @@ async function deleteSale(req, res) {
     res.json("sale deleted").end();
 }
 
+async function getAllSalesSum(req, res){
+    const sales = await salesModel.aggregate([
+        {
+            $group:{
+                _id:null,
+                totalSales:{$sum:"$price"}
+            }
+        }
+    ]);
+
+    res.json(sales).end();
+}
+
 module.exports = {
     getAllSales,
+    getAllSalesSum,
     getSingleSale,
     addSale,
     udpateSale,
     deleteSale
 }
+

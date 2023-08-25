@@ -41,9 +41,8 @@ async function addExpense(req, res) {
     }
 
     await expenseModel.create({
-        date: req.body.date,
         description: req.body.description,
-        quantity: req.body.price,
+        quantity: req.body.quantity,
         price: req.body.price
     });
 
@@ -84,8 +83,22 @@ async function deleteExpense(req, res) {
     res.json("expense deleted").end();
 }
 
+async function getAllExpensesSum(req, res){
+    const expenses = await expenseModel.aggregate([
+        {
+            $group:{
+                _id:null,
+                totalExpenses:{$sum:"$price"}
+            }
+        }
+    ]);
+
+    res.json(expenses).end();
+}
+
 module.exports = {
     getAllExpenses,
+    getAllExpensesSum,
     getSingleExpense,
     addExpense,
     udpateExpense,
